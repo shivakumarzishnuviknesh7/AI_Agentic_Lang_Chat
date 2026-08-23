@@ -11,7 +11,7 @@ import SwiftUI
 struct AI_SmartApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            LoginView()
         }
     }
 }
