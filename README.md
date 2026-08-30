@@ -10,6 +10,64 @@ The mobile application is developed in SwiftUI and is designed to communicate wi
 > **Status:** Active development. Core UI screens and application structure are implemented, while cloud API integration and production authentication are being added progressively.
 
 ---
+## Cloud Backend
+
+The mobile application is supported by a separate AWS serverless backend repository:
+
+**AI Smart Cloud** — [shivakumarzishnuviknesh7/AI_Smart_Cloud](https://github.com/shivakumarzishnuviknesh7/AI_Smart_Cloud)
+
+The backend is built with:
+
+- AWS Lambda
+- Amazon API Gateway
+- Amazon RDS for PostgreSQL
+- AWS Secrets Manager
+- Terraform
+- Python
+- n8n automation
+
+Backend responsibilities include:
+
+- Inventory and warehouse data
+- Customer orders
+- Employee profile data
+- Supplier management
+- Low-stock detection
+- Purchase-order creation
+- Automated replenishment workflows
+- Read/write API endpoints for the SwiftUI application
+
+### End-to-End Architecture
+
+```text
+                    SwiftUI iOS App
+                          │
+                          ▼
+                 Amazon API Gateway
+                          │
+              ┌───────────┴───────────┐
+              │                       │
+              ▼                       ▼
+         Read Lambda             Write Lambda
+              │                       │
+              └───────────┬───────────┘
+                          │
+                          ▼
+               Amazon RDS PostgreSQL
+                          │
+                          ▼
+              Inventory / Orders
+              Suppliers / Employees
+
+
+                  n8n Automation
+                          │
+                          ▼
+                Low-stock detection
+                          │
+                          ▼
+               Purchase-order workflow
+```
 
 ## Application Overview
 
