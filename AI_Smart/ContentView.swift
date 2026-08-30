@@ -4,7 +4,6 @@
 //
 //  Created by Zishnu Viknesh on 23.08.26.
 //
-
 import SwiftUI
 
 struct LoginView: View {
@@ -13,8 +12,19 @@ struct LoginView: View {
     @State private var passcode: String = ""
     @State private var showPassword: Bool = false
     @State private var errorMessage: String = ""
+    @State private var isLoggedIn: Bool = false
     
     var body: some View {
+        if isLoggedIn {
+            MainTabView()
+        } else {
+            loginScreen
+        }
+    }
+    
+    // MARK: - Login Screen
+    
+    private var loginScreen: some View {
         NavigationStack {
             VStack(spacing: 24) {
                 
@@ -54,9 +64,15 @@ struct LoginView: View {
                     
                     HStack {
                         if showPassword {
-                            TextField("Enter your passcode", text: $passcode)
+                            TextField(
+                                "Enter your passcode",
+                                text: $passcode
+                            )
                         } else {
-                            SecureField("Enter your passcode", text: $passcode)
+                            SecureField(
+                                "Enter your passcode",
+                                text: $passcode
+                            )
                         }
                         
                         Button {
@@ -82,10 +98,13 @@ struct LoginView: View {
                     Text(errorMessage)
                         .font(.caption)
                         .foregroundStyle(.red)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .frame(
+                            maxWidth: .infinity,
+                            alignment: .leading
+                        )
                 }
                 
-                // MARK: - Login
+                // MARK: - Login Button
                 
                 Button {
                     login()
@@ -96,7 +115,10 @@ struct LoginView: View {
                         .padding()
                 }
                 .buttonStyle(.borderedProminent)
-                .disabled(userID.isEmpty || passcode.isEmpty)
+                .disabled(
+                    userID.trimmingCharacters(in: .whitespaces).isEmpty ||
+                    passcode.isEmpty
+                )
                 
                 Spacer()
             }
@@ -104,10 +126,14 @@ struct LoginView: View {
         }
     }
     
+    // MARK: - Login Function
+    
     private func login() {
         errorMessage = ""
         
-        guard !userID.trimmingCharacters(in: .whitespaces).isEmpty else {
+        let trimmedUserID = userID.trimmingCharacters(in: .whitespaces)
+        
+        guard !trimmedUserID.isEmpty else {
             errorMessage = "Please enter your User ID."
             return
         }
@@ -118,8 +144,8 @@ struct LoginView: View {
         }
         
         // Temporary authentication for development only.
-        if userID == "admin" && passcode == "1234" {
-            print("Login successful")
+        if trimmedUserID == "admin" && passcode == "1234" {
+            isLoggedIn = true
         } else {
             errorMessage = "Invalid User ID or passcode."
         }
